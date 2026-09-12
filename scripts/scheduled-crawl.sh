@@ -88,6 +88,16 @@ echo "Validation finished with status $validate_status"
 
 echo "Building publication feed"
 "$PYTHON" scripts/publication_pipeline.py
+
+# ── QA & self-healing pass ──────────────────────────────────────────────────
+echo "Starting QA verification pass"
+"$PYTHON" scripts/verify_published.py
+status=$?
+echo "QA pass finished with status $status"
+if [ "$status" -ne 0 ]; then
+  record_failure "qa" "verify_published"
+fi
+
 pipeline_status=$?
 echo "Publication pipeline finished with status $pipeline_status"
 if [ "$pipeline_status" -ne 0 ]; then
