@@ -2,7 +2,7 @@
 set -u
 
 WIKI_ROOT="/Users/besa/macau-events-wiki"
-PYTHON="/Users/besa/.hermes/hermes-agent/venv/bin/python"
+PYTHON="$(command -v python3 || command -v python)"
 LOG_DIR="$WIKI_ROOT/logs"
 LOCK_DIR="/tmp/macau-events-crawler.lock"
 FAILURES_FILE="$LOG_DIR/failures.json"
