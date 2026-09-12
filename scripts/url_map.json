@@ -1,0 +1,88 @@
+{
+  "_comment": "Known event page URLs per source domain. Crawlers read this before discovery to skip re-fetching known pages. Keys are source domain names matching CRAWL_REGISTRY. Each entry has a list_url (the events listing page) and discovered_events (previously found event detail pages).",
+  "_version": 1,
+  "macaotourism.gov.mo": {
+    "list_url": "https://www.macaotourism.gov.mo/en/whats-on",
+    "discovered_events": []
+  },
+  "icm.gov.mo": {
+    "list_url": "https://www.icm.gov.mo/eindex.aspx",
+    "discovered_events": []
+  },
+  "macaucci.gov.mo": {
+    "list_url": "https://www.macaucci.gov.mo/en/events",
+    "discovered_events": []
+  },
+  "mam.gov.mo": {
+    "list_url": "https://www.mam.gov.mo/en/exhibition",
+    "discovered_events": []
+  },
+  "library.gov.mo": {
+    "list_url": "https://www.library.gov.mo/en/activities",
+    "discovered_events": []
+  },
+  "galaxymacau.com": {
+    "list_url": "https://www.galaxymacau.com/en/entertainment/",
+    "discovered_events": []
+  },
+  "sandsresortsmacao.com": {
+    "list_url": "https://www.sandsresortsmacao.com/en/entertainment.html",
+    "discovered_events": []
+  },
+  "wynnresortsmacau.com": {
+    "list_url": "https://www.wynnresortsmacau.com/en/entertainment",
+    "discovered_events": []
+  },
+  "cityofdreamsmacau.com": {
+    "list_url": "https://www.cityofdreamsmacau.com/en/entertainment",
+    "discovered_events": []
+  },
+  "mgm.mo": {
+    "list_url": "https://www.mgm.mo/en/cotai/entertainment",
+    "discovered_events": []
+  },
+  "sjmresorts.com": {
+    "list_url": "https://www.sjmresorts.com/en/entertainment",
+    "discovered_events": []
+  },
+  "londonermacao.com": {
+    "list_url": "https://www.londonermacao.com/macau-events-shows.html",
+    "discovered_events": []
+  },
+  "lisboetamacau.com": {
+    "list_url": "https://lisboetamacau.com/en/entertainment",
+    "discovered_events": []
+  },
+  "fishermanswharf.com.mo": {
+    "list_url": "https://www.fishermanswharf.com.mo/en/events",
+    "discovered_events": []
+  },
+  "sky21.com.mo": {
+    "list_url": "https://skyconceptmacau.com/en/entertainment/upcoming-event/",
+    "discovered_events": []
+  },
+  "cubamacao.com": {
+    "list_url": "https://www.cubamacao.com/events",
+    "discovered_events": []
+  },
+  "bobbarmacau.com": {
+    "list_url": "https://www.bobbarmacau.com/events",
+    "discovered_events": []
+  },
+  "thedenbar.com": {
+    "list_url": "https://www.thedenbar.com/events",
+    "discovered_events": []
+  },
+  "laferrari.com.mo": {
+    "list_url": "https://www.laferrari.com.mo/events",
+    "discovered_events": []
+  },
+  "centralmacau.com": {
+    "list_url": "https://www.centralmacau.com/events",
+    "discovered_events": []
+  },
+  "macaunews.mo": {
+    "list_url": "https://www.macaunews.mo/category/lifestyle/events/",
+    "discovered_events": []
+  }
+}
