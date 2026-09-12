@@ -74,6 +74,21 @@ SOFT_404_MARKERS = [
     "page not found", "404", "event not found", "this event has ended",
     "content not found", "no longer available",
 ]
+
+# Permanent/ongoing attractions — no specific date on page by design
+PERMANENT_ATTRACTION_KEYWORDS = [
+    'galaxy kidz', 'grand resort deck', 'fantasy box', 'the spectacle',
+    'grande praca', 'grande praça', 'kids city', "kids' city",
+    'sky21', 'sky 21', 'fisherman', 'always open', 'daily admission',
+    'open daily', 'year-round', 'permanent exhibition', 'permanent attraction',
+]
+
+def _is_permanent_attraction(event: dict) -> bool:
+    title = str(event.get('title', '')).lower()
+    venue = str(event.get('venue_name', '')).lower()
+    combined = title + ' ' + venue
+    return any(kw in combined for kw in PERMANENT_ATTRACTION_KEYWORDS)
+
 HALLUCINATION_RISK_PATTERNS = [
     r"mop\s*\d+",
     r"\d{1,2}:\d{2}\s*(am|pm)",
@@ -387,9 +402,12 @@ async def verify_event(session: aiohttp.ClientSession, event: dict) -> dict:
 
     start_date = _parse_date(event.get("start_date"))
     if start_date and not _find_date_on_page(page_text, start_date):
-        result["flags"].append(f"date_not_found_on_page:{start_date}")
-        if result["action"] == "ok":
-            result["action"] = "review"
+        if _is_permanent_attraction(event):
+            result["flags"].append("permanent_attraction:date_check_skipped")
+        else:
+            result["flags"].append(f"date_not_found_on_page:{start_date}")
+            if result["action"] == "ok":
+                result["action"] = "review"
 
     # Layer 4 — Image
     img_url = event.get("featured_image", "")

@@ -41,6 +41,14 @@ CITATION_REQUIRED_FIELDS = [
     "lineup",
 ]
 
+# Generic default values the AI invents without real source support.
+# Rejected even if the AI fabricates a citation for them.
+GENERIC_DEFAULT_BLOCKLIST = {
+    'dress_code':      {'casual', 'smart casual', 'no dress code', 'not stated', 'n/a', 'none'},
+    'age_restriction': {'all-ages', 'all ages', 'none', 'n/a', 'not stated', 'open to all'},
+}
+
+
 
 def _text(value: Any) -> str:
     return str(value or "").strip()
@@ -93,6 +101,16 @@ def _verify_citations(result: dict, page_text: str) -> tuple[dict, list[str]]:
             result[field] = None
             result[source_key] = f"UNVERIFIED:{quote[:120]}"
             dropped.append(f"{field}:quote_not_found_in_page")
+            continue
+
+        # Block generic default values even when a citation exists —
+        # the AI fabricates citations for these boilerplate phrases.
+        if field in GENERIC_DEFAULT_BLOCKLIST:
+            val_str = str(value).strip().lower()
+            if val_str in GENERIC_DEFAULT_BLOCKLIST[field]:
+                result[field] = None
+                result[source_key] = None
+                dropped.append(f"{field}:generic_default_blocked:{val_str}")
 
     return result, dropped
 
@@ -160,7 +178,12 @@ async def enrich_event(event: Any, html: str, session: Any) -> Any:
                     "You are a Macau event intelligence editor. Read the supplied source text. "
                     "Return valid JSON only. Never invent facts; use empty arrays or "
                     "'not stated in source' when unknown.\n\n"
-                    "IMPORTANT — Citation requirement: For every factual field you fill in "
+                    "ANTI-HALLUCINATION RULES:\n"
+                    "1. Never set dress_code to 'casual' or 'smart casual' unless those exact words appear in the source.\n"
+                    "2. Never set age_restriction to 'all-ages' or 'all ages' unless explicitly stated in the source.\n"
+                    "3. Never set considerations to generic advice like 'Check the official source' — only state specific verifiable uncertainties from the page.\n"
+                    "4. If a field is not explicitly stated in the source, set it to null — do not guess or use generic defaults.\n\n"
+                    "CITATION REQUIREMENT: For every factual field you fill in "
                     "(performers, ticket_price, organizer, sponsor, dress_code, age_restriction, "
                     "capacity, lineup), you MUST also include a matching *_source field containing "
                     "the EXACT verbatim text span from the source that supports the claim. "
